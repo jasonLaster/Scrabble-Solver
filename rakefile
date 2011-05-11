@@ -1,0 +1,9 @@
+require 'github/markup'
+
+task :default => [:markdown2html]
+
+task :markdown2html do
+	file = "README.markdown"
+  o = File.open("README.html", "w")
+  o.puts GitHub::Markup.render(file, File.read(file))
+end
