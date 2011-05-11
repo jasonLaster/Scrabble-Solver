@@ -49,7 +49,7 @@ def build_pattern(pattern, regex = "")
       case letter
         when /[a-zA-Z]/ then letter
         when /_/ then "."
-        when /\*/ then ".*"
+        when /\+/ then ".*"
         else
           raise SyntaxError, "bad character: #{letter}"
       end
