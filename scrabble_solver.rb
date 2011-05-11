@@ -39,17 +39,8 @@ def build_pattern(pattern, regex = "")
   regex
 end
 
-def intersection(l1, l2)
-  l1 & l2
-end
-
 def update_letters(pattern, letters)
   letters += pattern.scan(/[A-Z]/).join
-end
-class Array
-  def display
-    self.map(&:capitalize).join(" ")
-  end
 end
 
 # read in parameters
@@ -62,11 +53,12 @@ else
 end
 
 if pattern.nil?
-  puts letters_match(dict, letters).display
+  m1 = letters_match(dict, letters)
+  puts m1.map(&:capitalize).join(" ")
 else
   m1 = letters_match(dict, letters)
   r1 = build_pattern(pattern)
   m2 = regex_match(dict, r1)
-  m3 = intersection(m1, m2)
-  puts m3.display
+  m3 = m1 & m2
+  puts m3.map(&:capitalize).join(" ")
 end
