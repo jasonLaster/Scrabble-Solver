@@ -58,7 +58,7 @@ def build_pattern(pattern, regex = "")
 end
 
 def update_letters(pattern, letters)
-  letters += pattern.nil? ? "" : pattern.scan(/[A-Z]/).join
+  letters += pattern.nil? ? "" : pattern.scan(/[a-zA-Z]/).join
 end
 
 # read in parameters
