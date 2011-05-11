@@ -26,3 +26,5 @@ ruby scrabble_solver.rb bttale b+
 there are always next steps, but I think there are two immediate problems
 
 1. ability to find words with multiple constraints
+
+2. the program takes about half a second to run (500ms). This is too slow in practice. 
