@@ -19,8 +19,22 @@ end
 
 def letters_match(words, letters)
   good_letters = letters.sort.split(//).uniq
-  regex = good_letters.map {|letter| "#{letter}{0,#{letters.count(letter)}}" }
-  regex = Regexp.new("^#{regex.join}$")
+  regex = good_letters.map {|letter| "#{letter}{0,#{letters.count(letter)}}"}
+
+  expression =
+    if (good_letters[0] == '.')
+      wildcard, other_letters = regex[0], regex[1..-1]
+      big_regex = []
+      0.upto(other_letters.length) do |i|
+        r = other_letters.dup.insert(i, wildcard)
+        big_regex << "(^#{r.join}$)"
+      end
+      big_regex.join("|")
+    else
+      "^#{regex.join}$"
+    end
+
+  regex = Regexp.new(expression)
   words.select {|word| regex === word.sort}
 end
 
