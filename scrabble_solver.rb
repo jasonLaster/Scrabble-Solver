@@ -1,12 +1,15 @@
 
-dict = File.open("clean_dict.txt", "r").read.split(/ /).map(&:upcase)
-# words = %w{bat tab fat cat battle table}
-# words.map!(&:upcase)
-
 class String
   def sort
     self.split(//).sort.join("")
   end
+end
+
+def read_in_dict(letters)
+  # words = %w{bat tab fat cat battle table}
+  words = File.open("small_dict.txt", "r").read.split(/ /)
+  words += File.open("big_dict.txt", "r").read.split(/ /) if letters.length >= 10
+  words
 end
 
 def pattern_match(words, regex)
@@ -30,33 +33,30 @@ def build_pattern(pattern, regex = "")
   pattern.each_char do |letter|
     regex +=
       case letter
-        when /[A-Z]/ then letter
+        when /[a-zA-Z]/ then letter
         when /_/ then "."
         when /\*/ then ".*"
-        else "&"
+        else
+          raise SyntaxError, "bad character: #{letter}"
       end
   end
   regex
 end
 
 def update_letters(pattern, letters)
-  letters += pattern.scan(/[A-Z]/).join
+  letters += pattern.nil? ? "" : pattern.scan(/[A-Z]/).join
 end
 
 # read in parameters
-pattern, letters = nil, nil
-if ARGV.length == 2
-  pattern = ARGV[1].upcase
-  letters = update_letters(pattern, ARGV[0].upcase)
-else
-  letters = ARGV[0].upcase
-end
+pattern = (ARGV.length == 2) ? ARGV[1] : nil
+letters = update_letters(pattern, ARGV[0])
+dict = read_in_dict(letters)
+
+m1 = letters_match(dict, letters)
 
 if pattern.nil?
-  m1 = letters_match(dict, letters)
   puts m1.map(&:capitalize).join(" ")
 else
-  m1 = letters_match(dict, letters)
   r1 = build_pattern(pattern)
   m2 = regex_match(dict, r1)
   m3 = m1 & m2
