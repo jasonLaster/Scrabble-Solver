@@ -1,4 +1,8 @@
 .DS_Store
 clean_dict.txt
 words.txt
-
+big_dict.txt
+small_dict.txt
+word-distributions.txt
+dictionary.rb
+tests.rb
